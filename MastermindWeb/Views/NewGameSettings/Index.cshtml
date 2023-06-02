@@ -1,0 +1,44 @@
+﻿@model GameInputModel
+
+@{
+    ViewData["Title"] = "New game";
+}
+
+<h1 class="display-4">Mastermind</h1>
+    
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="align-content-center">
+        @Html.ValidationSummary(true)
+
+        <div class="input-group">
+            @Html.LabelFor(model => model.TurnsCount, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TurnsCount)
+                @Html.ValidationMessageFor(model => model.TurnsCount)
+            </div>
+        </div>
+
+        <div class="input-group">
+            @Html.LabelFor(model => model.CodeLength, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CodeLength)
+                @Html.ValidationMessageFor(model => model.CodeLength)
+            </div>
+        </div>
+
+        <div class="input-group">
+            @Html.LabelFor(model => model.AllowDuplicates, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AllowDuplicates)
+                @Html.ValidationMessageFor(model => model.AllowDuplicates)
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input type="submit" value="Play" class="btn btn-primary" />
+        </div>
+    </div>
+}

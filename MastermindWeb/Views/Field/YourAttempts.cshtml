@@ -1,0 +1,47 @@
+﻿@model YourAttemptsModel
+
+@{
+    ViewData["Title"] = "Your attempts";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div id="your-scores">
+    <table class="table table-hover" style="border-color: black;">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Time (hh:mm)</th>
+            <th>Duration (hh:mm:ss)</th>
+            <th>Points</th>
+            <th>State</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Model.Scores.Count; i++)
+        {
+            var score = Model.Scores[i];
+            <tr>
+                <td>
+                    <strong>@(i + 1)</strong>
+                </td>
+                <td>
+                    <strong>@($"{score.PlayedAt:d.M.yyyy}")</strong>
+                </td>
+                <td>
+                    @($"{score.PlayedAt:HH\\:mm}")
+                </td>
+                <td>
+                    @($"{score.Duration:hh\\:mm\\:ss}")
+                </td>
+                <td>
+                    <strong>@score.Points</strong>
+                </td>
+                <td class="attempt-@(score.Points == 0 ? "lose" : "win")">
+                    @(score.Points == 0 ? "Lose" : "Win")
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

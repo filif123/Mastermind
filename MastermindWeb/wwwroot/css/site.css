@@ -1,0 +1,405 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #d16328; /*#0366d6*/
+}
+
+a:hover {
+    color: #b04207;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #d16328; /*#1b6ec2*/
+    border-color: #b04207; /*#1861ac*/
+}
+
+.btn-outline-primary {
+    color: #b04207;
+    border-color: #b04207;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #d16328;
+    border-color: #b04207;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #b04f1a;
+    border-color: #9e4819;
+}    
+
+.btn-secondary {
+    color: #fff;
+    background-color: #ffa44f;
+    border-color: #ff8b1f;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #ff8b1f;
+    border-color: #ff8b1f;
+}    
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.navbar {
+    background-color: blanchedalmond !important;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #ffba7a !important; /*#e5e5e5*/
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ffba7a !important;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem #000000;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #fff7e5;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.login-btns {
+    margin-right: 0.5em;
+}
+
+.alert {
+    margin-top: 1em;
+}
+
+.field {
+    float: none;
+    margin: auto;
+}
+
+#aval-colors {
+    float: none;
+    margin: auto;
+}
+
+#correct-colors {
+    float: none;
+    margin: auto;
+}
+
+#set-colors {
+    float: none;
+    margin: auto;
+}
+
+.peg {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 0.5em;
+}
+
+.peg-box {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 0.5em;
+}
+
+.peg-small {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.4em;
+}
+
+.peg-empty {
+    width: 2.5em;
+    height: 2.5em;
+    background: lightgray;
+    border-radius: 0.5em;
+}
+
+.available-pegs {
+    float: none;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.set-pegs {
+    float: none;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.pt-correct {
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.1em;
+    margin-left: 0.3em;
+}
+
+.pt-correct-color {
+    background: #0366d6;
+}
+
+.pt-correct-position {
+    background: #b22222;
+}
+
+.peg-Red {
+    background: red;
+}
+
+.peg-Green {
+    background: green;
+}
+
+.peg-Blue {
+    background: blue;
+}
+
+.peg-Orange {
+    background: orange;
+}
+
+.peg-Yellow {
+    background: yellow;
+    border: black 1px solid;
+}
+
+.peg-Cyan {
+    background: cyan;
+}
+
+.peg-White {
+    background: white;
+    border: black 1px solid;
+}
+
+.peg-Violet {
+    background: darkviolet;
+}
+
+ol.win-places-menu {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+li.win-place {
+    counter-increment: item;
+    margin-bottom: 5px;
+}
+
+.win-place-gold {
+    margin: 5px;
+}
+
+.win-place-silver {
+    margin: 5px;
+}
+
+.win-place-bronze {
+    margin: 5px;
+}
+
+li.win-place-gold:before {
+    margin-right: 10px;
+    content: "1";
+    background: goldenrod;
+    border-radius: 100%;
+    color: white;
+    width: 1.4em;
+    text-align: center;
+    display: inline-block;
+}
+
+li.win-place-silver:before {
+    margin-right: 10px;
+    content: "2";
+    background: silver;
+    border-radius: 100%;
+    color: black;
+    width: 1.4em;
+    text-align: center;
+    display: inline-block;
+}
+
+li.win-place-bronze:before {
+    margin-right: 10px;
+    content: "3";
+    background: #a0522d;
+    border-radius: 100%;
+    color: white;
+    width: 1.4em;
+    text-align: center;
+    display: inline-block;
+}
+
+.checked {
+    color: orange;
+}
+
+#status-field {
+    border-radius: 0.5em;
+    background: #f0f8ff;
+    padding: 1em;
+}
+
+#score-status {
+    border-radius: 0.5em;
+    background: #f5deb3;
+    padding: 1em;
+}
+
+#win-places {
+    border-radius: 0.5em;
+    background: #d4eafc;
+    padding: 1em;
+}
+
+#your-scores {
+    border-radius: 0.5em;
+    background: #f7d9b2;
+    padding: 1em;
+}
+
+#avg-rating {
+    border-radius: 0.5em;
+    background: #f5deb3;
+    padding: 1em;
+}
+
+.rating-num {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-left: 0.5em; 
+}
+
+#set-rating {
+    border-radius: 0.5em;
+    background: #f8ffad;
+    padding: 1em;
+}
+
+#playing-state {
+    border-radius: 0.5em;
+    background: #66cdaa;
+    padding: 1em;
+}
+
+#solved-state {
+    border-radius: 0.5em;
+    background: #228b22;
+    color: white;
+    padding: 1em;
+}
+
+#lose-state {
+    border-radius: 0.5em;
+    background: #cc5050;
+    color: white;
+    padding: 1em;
+}
+
+#stopwatch {
+    font-size: 1.2em;
+    float: right;
+    font-weight: bold; 
+}
+
+#comment-section {
+    border-radius: 0.5em;
+    background: #ffdebf;
+    padding: 1em;
+    margin-top: 1em;
+    max-width: 50%;
+}
+
+.comment-block {
+    margin-top: 1em;
+}
+
+#command-text-input {
+    margin-top: 1em;
+    resize: vertical;
+    width: 100%;
+    /*box-sizing: border-box;*/
+}
+
+.comment-player-name {
+    font-weight: bold;
+}
+
+.comment-date {
+    float: right;
+}
+
+#next-comments-btn {
+    float: right;
+}
+
+#prev-comments-btn {
+    float: left;
+}
+
+#send-comment-btn {
+    float: right;
+}
+
+.attempt-win {
+    background-color: #66cdaa !important;
+}
+
+.attempt-lose {
+    background-color: #cc5050 !important;
+    color: white;
+}

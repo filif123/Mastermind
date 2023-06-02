@@ -1,0 +1,52 @@
+﻿@model PlayerRegisterModel
+
+@{
+    ViewData["Title"] = "Sign up";
+    var errorExists = ViewBag.error is not null;
+}
+
+<h1 class="display-4">Sign up</h1>
+    
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="align-content-center">
+        @Html.ValidationSummary(true)
+
+        <div class="input-group">
+            @Html.LabelFor(model => model.Name, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="input-group">
+            @Html.LabelFor(model => model.Password, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        
+        <div class="input-group">
+            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConfirmPassword)
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input type="submit" value="Sign up" class="btn btn-primary" />
+        </div>
+        
+        @if (errorExists)
+        {
+            <div class="alert alert-danger">
+                @(ViewBag.error)
+            </div>
+        }
+    </div>
+}

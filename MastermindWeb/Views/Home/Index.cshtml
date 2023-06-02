@@ -1,0 +1,11 @@
+﻿@model GameInputModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1 class="display-4">Mastermind</h1>
+
+<p>Please login or sign up to play:</p>
+<a asp-action="Index" asp-controller="Login" class="btn btn-primary">Login</a>
+<a asp-action="Index" asp-controller="Signup" class="btn btn-primary">Sign up</a>

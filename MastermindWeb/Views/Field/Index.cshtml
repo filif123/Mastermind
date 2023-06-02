@@ -1,0 +1,293 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using MastermindCore
+@model GameModel
+
+@{
+    ViewData["Title"] = "Field";
+}
+
+@section Scripts
+{
+    <script>
+        var scoreElem;
+
+        window.onload = function() {
+            starCheck_@(Model.OwnRating)();
+            if (@(Model.Comments.ScrollToComments ? 1 : 0))
+                scrollToComments();
+            
+            if (@(Model.Game.State != GameState.Playing ? 1 : 0)) {
+                @{
+                    var total = Model.Game.EndTime - Model.Game.StartTime;
+                }
+                setTimer(@total.Hours, @total.Minutes, @total.Seconds);
+                startTimer();
+                stopTimer();
+            } 
+            else {
+                @{
+                    var timer = DateTime.Now - Model.Game.StartTime;
+                }
+                setTimer(@timer.Hours, @timer.Minutes, @timer.Seconds);
+                startTimer();
+                updateScore();
+            }
+        }
+
+        function updateScore() {
+            var score;
+            if (@(Model.Game.State == GameState.Lose ? 1 : 0)) {
+                score = 0;
+            }
+            else if (@(Model.Game.State == GameState.NotStarted ? 1 : 0)) {
+                score = -1;
+            } 
+            else if (@(Model.Game.State == GameState.Solved ? 1 : 0)) {
+                score = @Model.Game.GetScore();
+            } 
+            else {
+                score = 500;
+                score -= (Math.floor(Date.now()/1000) - @(new DateTimeOffset(Model.Game.StartTime).ToUnixTimeSeconds()));
+                score = Math.max(score, 0);
+                setTimeout("updateScore()", 5000);
+            }
+
+            document.getElementById("score-value").innerHTML = score;
+        }
+
+        function invalidMove() {
+            if(document.getElementById("textpeg").value.length !== @(Model.Game.CodeLength))
+                alert('Invalid move!');
+        }
+    </script>
+}
+
+<div class="text-center">
+    <h1>Mastermind</h1>
+</div>
+
+<div class="container row justify-content-md-center">
+    <div class="col">
+        <div class="align-content-start">
+            <div id="win-places">
+                <h2>Best scores</h2>
+                <ol class="win-places-menu">
+                    @if (Model.Scores.Count >= 1)
+                    {
+                        <li class="win-place-gold"><strong>@(Model.Scores[0].Points)</strong> - @(Model.Scores[0].Player) (@($"{Model.Scores[0].PlayedAt:d.M.yyyy}")) @($"{Model.Scores[0].Duration:hh\\:mm\\:ss}")</li>
+                    }
+                    @if (Model.Scores.Count >= 2)
+                    {
+                        <li class="win-place-silver"><strong>@(Model.Scores[1].Points)</strong> - @(Model.Scores[1].Player) (@($"{Model.Scores[1].PlayedAt:d.M.yyyy}")) @($"{Model.Scores[1].Duration:hh\\:mm\\:ss}")</li>
+                    }
+                    @if (Model.Scores.Count >= 3)
+                    {
+                        <li class="win-place-bronze"><strong>@(Model.Scores[2].Points)</strong> - @(Model.Scores[2].Player) (@($"{Model.Scores[2].PlayedAt:d.M.yyyy}")) @($"{Model.Scores[2].Duration:hh\\:mm\\:ss}")</li>
+                    }
+                </ol>
+            </div>
+            <div id="avg-rating">
+                <h2>Average rating</h2>
+                @for (var i = 1; i <= 5; i++)
+                {
+                    @if (i <= Model.AverageRating)
+                    {
+                        <span class="fa fa-star checked"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+                }
+                <span class="rating-num">@Model.AverageRating.ToString("F1")</span>
+            </div>
+            <div id="set-rating">
+                <h2>Set your rating</h2>
+                <div id="set-rating-stars" onmouseleave="starCheck_@(Model.OwnRating)();">
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        @if (i <= Model.OwnRating)
+                        {
+                            <a href="/Rating/@i" style="text-decoration: none;">
+                                <span style="color: black;" id="star_@i" class="fa fa-star checked" onmouseover="starCheck_@(i)()" onmouseout="starUncheck_@(i)()"></span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Rating/@i" style="text-decoration: none;">
+                                <span style="color: black;" id="star_@i" class="fa fa-star" onmouseover="starCheck_@(i)()" onmouseout="starUncheck_@(i)()"></span>
+                            </a>
+                        }
+                    }
+                    <span class="rating-num">@Model.OwnRating.ToString("F1")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="col-md-auto text-center">
+        
+        <table class="field">
+            @for (var row = 0; row < Model.Game.MaxAllowedTurns; row++)
+            {
+                <tr>
+                    @if (row < Model.Game.TurnsCount)
+                    {
+                        @for (var column = 0; column < Model.Game.CodeLength; column++)
+                        {
+                            var peg = Model.Game.Turns[row].Pegs[column];
+
+                            <td>
+                                <div class="peg peg-@(peg.Name)"></div>
+                            </td>
+                        }
+
+                        var countRightPlaces = Model.Game.Turns[row].CountOfRightPlaces;
+                        var countRightColors = Model.Game.Turns[row].CountOfRightColors;
+
+                        @for (var i = 0; i < countRightPlaces; i++)
+                        {
+                            <td>
+                                <div class="pt-correct pt-correct-position" title="@($"{countRightPlaces}x right places, {countRightColors}x right colors")"></div>
+                            </td>
+                        }
+
+                        @for (var i = 0; i < countRightColors; i++)
+                        {
+                            <td>
+                                <div class="pt-correct pt-correct-color" title="@($"{countRightPlaces}x right places, {countRightColors}x right colors")"></div>
+                            </td>
+                        }
+                    }
+                    else
+                    {
+                        for (var column = 0; column < Model.Game.CodeLength; column++)
+                        {
+                            <td>
+                                <div class="peg-empty"></div>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </table>
+
+        <div class="available-pegs">
+            <p>Available colors: </p>
+            <table id="aval-colors">
+                <tr>
+                    @foreach (var code in CodePeg.GetValues())
+                    {
+                        <td>
+                            <div id="@(code.Key)" class="peg peg-@(code.Name)" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)"></div>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+
+        <div class="set-pegs">
+            <p>Enter colors: </p>
+            <table id="set-colors">
+                <tr>
+                    @for (var i = 0; i < Model.Game.CodeLength; i++)
+                    {
+                        <td>
+                            <div class="peg-box peg-empty" draggable="false"></div>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+
+        <form method="post" asp-action="Move" asp-controller="Field">
+            <input id="textpeg" hidden="true" name="inputText" type="text" required="true" value=""/>
+            <input type="submit" value="New turn" class="btn btn-primary" hidden="@(Model.Game.State is GameState.Lose or GameState.Solved)" onclick="invalidMove();">
+        </form>
+
+    </div>
+    <div class="col">
+        <div id="score-status">
+            <h2>Score: <span id="score-value">@Model.Game.GetScore()</span></h2>
+            <a asp-action="Reset" class="btn btn-secondary">Reset game</a>
+            <span id="stopwatch">00:00:00</span>
+        </div>
+        
+        @if (Model.Game.State == GameState.Playing)
+        {
+            <div id="playing-state">
+                <h3>Playing</h3>
+            </div>
+            
+        }
+        else if (Model.Game.State == GameState.Solved)
+        {
+            <div id="solved-state">
+                <h3>Solved</h3>
+            </div>
+        }
+        else if (Model.Game.State == GameState.Lose)
+        {
+            <div id="lose-state">
+                <h3>You lose</h3>
+                <p>Correct combination was:</p>
+                <table id="correct-colors">
+                    <tr>
+                        @foreach (var code in Model.Game.CorrectCombination!)
+                        {
+                            <td>
+                                <div id="@(code.Key)" class="peg-small peg-@(code.Name)"></div>
+                            </td>
+                        }
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+    <div id="comment-section">
+        <h2>Comments - page @(Model.Comments.PageIndex)</h2>
+        <form method="get" asp-action="Index" asp-controller="Field">
+            <div style="text-align: center;">
+                <a href="/Field/?perPage=@(Model.Comments.CommentsPerPage)&pindex=@(Model.Comments.PageIndex-1)&scroll=true" 
+                   @(Model.Comments.PageIndex-1 <= 0 ? "hidden" : "") 
+                   class="btn btn-secondary" 
+                   id="prev-comments-btn">Previous</a>
+                <label class="form-label col-md-2" for="perPage">Per page:</label>
+                <input type="number" name="perPage" id="perPage" class="col-md-2" value="@(Model.Comments.CommentsPerPage)"/>
+                <input type="submit" value="Set" class="btn btn-primary"/>
+                <a href="/Field/?perPage=@(Model.Comments.CommentsPerPage)&pindex=@(Model.Comments.PageIndex+1)&scroll=true" 
+                   @(Model.Comments.PageIndex+1 >= Model.Comments.MaxCommentsPages+1 ? "hidden" : "") 
+                   class="btn btn-secondary" 
+                   id="next-comments-btn">Next</a>
+            </div>
+            
+        </form>
+        @foreach (var comment in Model.Comments.CommentsList)
+        {
+            <div class="comment-block">
+                <span class="comment-player-name">@comment.Player!.Name</span>
+                <span class="comment-date">@(comment.CommentedAt.Date == DateTime.Today ? 
+                                               comment.CommentedAt.ToString("t") : 
+                                               comment.CommentedAt.ToString("g"))</span>
+                <div>
+                    @comment.Text
+                </div>
+            </div>
+        }
+
+        @using (Html.BeginForm("SendComment", "Field", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div>
+                <textarea name="commentText" required="true" id="command-text-input"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Send" class="btn btn-secondary" id="send-comment-btn">
+            </div>
+        }
+    </div>
+</div>
